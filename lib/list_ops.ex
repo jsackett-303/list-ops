@@ -11,7 +11,8 @@ defmodule ListOps do
   end
 
   defp count([], idx), do: idx
-  defp count([_|l], idx) do
+
+  defp count([_ | l], idx) do
     count(l, idx + 1)
   end
 
@@ -21,8 +22,9 @@ defmodule ListOps do
   end
 
   defp reverse([], acc), do: acc
-  defp reverse([h|t], acc) do
-    reverse(t, [h|acc])
+
+  defp reverse([h | t], acc) do
+    reverse(t, [h | acc])
   end
 
   @spec map(list, (any -> any)) :: list
@@ -31,8 +33,9 @@ defmodule ListOps do
   end
 
   defp map([], _, acc), do: acc
-  defp map([h|t], f, acc) do
-    [f.(h)|map(t, f, acc)]
+
+  defp map([h | t], f, acc) do
+    [f.(h) | map(t, f, acc)]
   end
 
   @spec filter(list, (any -> as_boolean(term))) :: list
@@ -41,9 +44,10 @@ defmodule ListOps do
   end
 
   defp filter([], _, acc), do: acc
-  defp filter([h|t], f, acc) do
+
+  defp filter([h | t], f, acc) do
     if f.(h) == true do
-      [h|filter(t, f, acc)]
+      [h | filter(t, f, acc)]
     else
       filter(t, f, acc)
     end
@@ -52,14 +56,16 @@ defmodule ListOps do
   @type acc :: any
   @spec reduce(list, acc, (any, acc -> acc)) :: acc
   def reduce([], acc, _), do: acc
-  def reduce([h|t], acc, f) do
+
+  def reduce([h | t], acc, f) do
     reduce(t, f.(h, acc), f)
   end
 
   @spec append(list, list) :: list
   def append([], tail), do: tail
-  def append([h|t], tail) do
-    [h|append(t, tail)]
+
+  def append([h | t], tail) do
+    [h | append(t, tail)]
   end
 
   @spec concat([[any]]) :: [any]
@@ -68,13 +74,16 @@ defmodule ListOps do
   end
 
   defp flatten([]), do: []
-  defp flatten([[]|t]) do
+
+  defp flatten([[] | t]) do
     flatten(t)
   end
-  defp flatten([[h|t]|t2]) do
-    flatten([h|[t|t2]])
+
+  defp flatten([[h | t] | t2]) do
+    flatten([h | [t | t2]])
   end
-  defp flatten([h|t]) do
-    [h|flatten(t)]
+
+  defp flatten([h | t]) do
+    [h | flatten(t)]
   end
 end
